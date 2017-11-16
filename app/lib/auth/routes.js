@@ -7,25 +7,26 @@ const router = module.exports = express.Router();
 
 //sign up
 router.post('/users', (req, res, next) => {
+  //verify that req has username
   if( !req.body.username) return new Error(error)
+  //verify that req has password
   if( !req.body.password) return new Error(error)
+
+  //pass req into user constructor
+
+  //now this is where I get lost.
+
+  //does the user model have code that update the user in mongodb,
+  //or does the route handle that?
+
+  //send res with user that was just created
 
   new User(req.body).save();
   .then(res.send('success message'))
   .catch(err => next({err}))
 })
 
-//verify that req has username
-//verify that req has password
 
-//pass req into user constructor
-
-//now this is where I get lost.
-
-//does the user model have code that update the user in mongodb,
-//or does the route handle that?
-
-//send res with user that was just created
 
 //delete
 router.delete('/users:id', (req, res, next) => {
@@ -44,8 +45,7 @@ router.put('/users/:id', (req, res, next) => {
 })
 
 //config
-//???  User.findOneAndUpdate(_id:req.params.id}, req.body)
-router.verb('string' (req, res, next) => {
+router.put('string' (req, res, next) => {
   //sets up server?
   //establish defaults using config object.
 })
