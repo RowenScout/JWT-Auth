@@ -8,9 +8,9 @@ const router = module.exports = express.Router();
 //sign up
 router.post('/users', (req, res, next) => {
   //verify that req has username
-  if( !req.body.username) return new Error(error)
+  if( !req.body.username) return new Error(error);
   //verify that req has password
-  if( !req.body.password) return new Error(error)
+  if( !req.body.password) return new Error(error);
 
   //pass req into user constructor
 
