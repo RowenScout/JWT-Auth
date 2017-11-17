@@ -2,11 +2,10 @@
 
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/', {useMongoClient: true});
 
 const app = require('express')();
 
-app.use(require(__dirname + '/lib/auth/routes.js'));
+app.use(require(__dirname + '/routes.js'));
 
 app.use((err, req, res, next) => {
   console.log(err);
@@ -18,13 +17,13 @@ module.exports = {
     return new Promise((resolve,reject) => {
 
     app.listen(process.env.PORT || 3000, () => {
-        console.log(`Server up on port: ${process.env.PORT}`);
+        console.log(`Server up on port: ${process.env.PORT || 3000}`);
         resolve();
 
       });
     })
       .then(() => {
-        mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});
+        mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/users', {useMongoClient: true});
 
       });
     },

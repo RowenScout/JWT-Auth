@@ -4,7 +4,8 @@
   "description": "Authentication/Authorization module for node. Written in javascript.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./testServer/index.js",
+    "db": "mkdir -p ./testServer/db && mongod --dbpath ./testServer/db"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,17 @@
   },
   "homepage": "https://github.com/RowenScout/JWT-Auth#readme",
   "devDependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
     "jest": "^21.2.1",
-    "mongoose": "^4.13.2",
+    "mongoose": "^4.13.3",
+    "nodemon": "^1.12.1",
+    "superagent": "^3.8.1",
     "uuid": "^3.1.0"
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.3"
   }
 }
