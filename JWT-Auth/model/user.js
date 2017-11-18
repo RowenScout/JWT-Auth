@@ -19,7 +19,10 @@ User.methods.hashify = (password) => {
     });
 };
 
-
+// User.methods.pre = () => {
+//   this.uuid = uuid();
+//   return this;
+// }
 
 // create user.pre that adds uuid to the user being saved
 // create method that compares password for auth
