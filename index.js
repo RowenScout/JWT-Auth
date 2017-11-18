@@ -1,10 +1,10 @@
 'use strict';
 
-const config = require('./config');
-const signup = require('./signup');
-const signin = require('./signin');
-const logout = require('./logout');
-const update = require('./update');
+const config = require('./JWT-Auth/config');
+const signup = require('./JWT-Auth/signup');
+const signin = require('./JWT-Auth/signin');
+const logout = require('./JWT-Auth/logout');
+const update = require('./JWT-Auth/update');
 
 
 module.exports = (req, res, next) => {
