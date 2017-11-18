@@ -3,8 +3,7 @@
 const User = require('./model/user.js');
 // const create = require('./create.js');
 
-module.exports = () => {
-
+module.exports = (req, res, next) => {
   let authHeader = req.headers.authorization;
   if (!authHeader) return next(new Error('No auth Header'));
 
@@ -12,7 +11,6 @@ module.exports = () => {
   let base64Buffer = new Buffer(base64, 'base64');
   let stringHeader = base64Buffer.toString();
   let authArray = stringHeader.split(':');
-
   let authObject = {};
   authObject.username = authArray[0],
   authObject.password = authArray[1]
@@ -36,5 +34,5 @@ module.exports = () => {
         };
       });
     };
-  };
+  });
 };

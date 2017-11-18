@@ -13,6 +13,13 @@ router.get('/signup', jwtAuth().signup, (req, res, next) => {
   next();
 });
 
+router.put('/update', jwtAuth().update, (req, res, next) => {
+
+  console.log('Update: ',req.user);
+  res.send("Hello Larry!");
+  next();
+});
+
 // signin
 
 // logout
