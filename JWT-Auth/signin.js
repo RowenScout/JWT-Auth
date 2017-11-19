@@ -3,9 +3,12 @@
 const jwt = require('jsonwebtoken');
 const User = require('./lib/user.js');
 const bcrypt = require('bluebird').promisifyAll(require('bcrypt'));
+const create = require('create');
 
 module.exports = (req, res, next) => {
   req.user = req.user || {};
+
+  //create(req, next);
       let authHeader = req.headers.authorization;
       if (!authHeader) return next(new Error('No auth Header'));
       let base64 = authHeader.split('Basic ')[1];
