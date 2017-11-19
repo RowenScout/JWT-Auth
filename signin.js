@@ -34,62 +34,12 @@ User.findOne({username: authObject['username']}).then(response => {
        } else {
          req.user.authenticated = res;
        }
-      //  next();
      });
-    // if (response.password === authObject.password) {
-    //   res.user = {message: '', token: ''};
-    //   next();
-    // }
-    //
-
-
-
     next();
   } else {
-    //muy mal
     console.log('err');
   }
 
 });
-
-
-//
-//
-//   //   req.user = {
-//   //   //   //authenticate
-//   //   // //   if (!user) next (err: 403);
-//   //   // //   if (!user.username) next (err: 404);
-//   //   // //   if (!user.password) next (err: 404);
-//   //   // //   next();
-//   //   // //   //message
-//   //   // //   if (req.user = req.user.db) {
-//   //   // //     //if the user matches the user in the db
-//   //   // //   return message: `Welcome + ${req.user.username}!`
-//   //   // // } else {
-//   //   // //   return err: 404
-//   //   // // }
-//   //   // //   //token
-//   //   //
-      // req.parseJWT = {};
-      // if (typeof req.headers.authorization ==== 'undefined') {
-      //   req.parseJWT.message = 'No headers.';
-      // } else {
-      //   let token = req.headers.authorization.split('Bearer ')[1] || null;
-      //     try {
-      //       let verified = jwt.verify(token , process.env.SECRET || 'change this') || null;
-      //     req.parseJWT.verified = verified.id;
-      //   } catch (err) {
-      //     req.parseJWT.verified = false;
-      //   }
-      // }
-//   //   //   return req;
-//   //   //
-//   //   //   //user
-//   // })
-//
-// //if correct, generate just token
-// //use uuid of user
-//
-// }
 next();
 };
