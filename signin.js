@@ -31,12 +31,10 @@ User.findOne({username: authObject['username']}).then(response => {
          next();
        }
      });
-    next();
   } else {
     req.user.authenticated = false;
     next();
   }
 
 });
-next();
 };
