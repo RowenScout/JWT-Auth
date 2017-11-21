@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
                 newUser.password = hash.password;
                 newUser.uuid = hash.uuid;
                 newUser.save().then(response => {
-                    req.user = "Account Created";
+                    req.user.message = "Account Created";
                     next();
                 });
             });
