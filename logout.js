@@ -7,6 +7,7 @@ module.exports = (req, res, next) => {
 //invalidate token
 //set authorication to true to false
 //get bearer token from req.user.
+//change uuid
 
 console.log(req.headers);
 
@@ -18,11 +19,17 @@ console.log(req.headers);
   let verified = jwt.verify(token, process.env.SECRET || 'change this')
     console.log(verified);
 // search db for matches verfied.id
-
 User.findOne({uuid: verified['id']}).then(response => {
 console.log(response);
-})
-
-
+if(res) {
+  // notverified.id === response.id
+  //invalidate token
+  //change uuid
+  req.user.authenticated = false;
+  req.send('Logged out.')
   next();
+} else {
+  req.user.authenticated = true;
+}
+
 };
