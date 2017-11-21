@@ -4,7 +4,6 @@ const express = require('express');
 const parser = require('body-parser');
 const router = module.exports = express.Router();
 const jwtAuth = require('../../index.js');
-
 // signup
 router.get('/signup', jwtAuth().signup, (req, res, next) => {
   // our function will attach a user object to req. so req.user = {};

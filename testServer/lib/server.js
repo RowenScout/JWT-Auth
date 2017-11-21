@@ -6,7 +6,6 @@ mongoose.Promise = require('bluebird');
 const app = require('express')();
 
 app.use(require(__dirname + '/routes.js'));
-
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500 || err.statusCode).send(err.message || 'server error');
