@@ -21,7 +21,7 @@ router.get('/signin', jwtAuth().signin, (req,res,next) => {
 });
 // logout
 router.get('/logout', jwtAuth().logout, (req, res, next) => {
-  res.send('Save the Wales.');
+  res.send(req.user);
   // if (req.user)
   // req.user.destroy;
   next();
