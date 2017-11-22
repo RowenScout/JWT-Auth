@@ -17,15 +17,18 @@ User.findOne({username: authHeader['username']}).then(response => {
       .then (
      function (res, err){
        if (res) {
+         req.user.message = 'Signed in successfully!';
          req.user.authenticated = res;
            req.user.token = jwt.sign({id: response.uuid}, process.env.SECRET || 'change this');
           next();
        } else {
+         req.user.message = 'Authentication failed!';
          req.user.authenticated = false;
          next();
        }
      });
   } else {
+    req.user.message = 'Username does not exist!';
     req.user.authenticated = false;
     next();
   }
