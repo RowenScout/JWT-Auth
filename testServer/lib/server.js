@@ -28,6 +28,8 @@ module.exports = {
   stop: () => {
     http.close(() => {
       mongoose.disconnect();
+      http = null;
+      isRunning = false;
       return;
     });
   },
