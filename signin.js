@@ -5,7 +5,7 @@ const User = require('./lib/user.js');
 const bcrypt = require('bluebird').promisifyAll(require('bcrypt'));
 const getHeader = require('./lib/getHeader.js');
 
-module.exports = (req, res, next) => {
+module.exports = (config, req, res, next) => {
 
       req.user = req.user || {};
       let authHeader = getHeader(req, next);
