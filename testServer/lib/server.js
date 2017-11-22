@@ -12,32 +12,25 @@ app.use((err, req, res, next) => {
   res.status(500 || err.statusCode).send(err.message || 'server error');
 });
 
+let http = null;
+let isRunning = null;
+
+
 module.exports = {
   start: () => {
-    return new Promise((resolve,reject) => {
 
-    app.listen(process.env.PORT || 3000, () => {
-        console.log(`Server up on port: ${process.env.PORT || 3000}`);
-        resolve();
-
-      });
-    })
-      .then(() => {
-        mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/users', {useMongoClient: true});
-
+    http = app.listen(process.env.PORT || 3000, () => {
+        isRunning = true;
+        mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/users', {useMongoClient: true});   
       });
     },
 
   stop: () => {
-    return new Promise((resolve, reject) => {
-
-      server.close(() => {
-        console.log('server has been shut down');
-        resolve();
-
-      });
-    })
-      .then(() => mongoose.disconnect());
-
+    http.close(() => {
+      mongoose.disconnect();
+      http = null;
+      isRunning = false;
+      return;
+    });
   },
 }

@@ -9,14 +9,14 @@ module.exports = (req, res, next) => {
     const newUser = new User(authHeader);
     User.findOne({username: authHeader['username']}).then(response => {
         if (response) {
-            req.user.message = "Already Exists";
+            req.user.message = "Account already exists.";
             next();
         } else {
             newUser.hashify(authHeader['password']).then(hash=> {
                 newUser.password = hash.password;
                 newUser.uuid = hash.uuid;
                 newUser.save().then(response => {
-                    req.user.message = "Account Created";
+                    req.user.message = "Account Created.";
                     next();
                 });
             });
