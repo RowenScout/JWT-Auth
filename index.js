@@ -8,20 +8,22 @@ const _update = require('./update');
 
 const jwt_auth = function(req, res, next) {
     this._config = {message: 'testing'};
+    // any variables you store here under 'this' will be accessable within each function through the '_this' argument.
+
     this.signup = (req, res, next) => {
-        return _signup(this._config, req, res, next);
+       return _signup(this, req, res, next);
     };
 
     this.signin = (req, res, next) => {
-        return _signin(this._config, req, res, next);
+        return _signin(this, req, res, next);
     };
 
     this.logout = (req, res, next) => {
-        return _logout(this._config, req, res, next);
+        return _logout(this, req, res, next);
     };
 
     this.update = (req, res, next) => {
-        return _update(this._config, req, res, next);
+        return _update(this, req, res, next);
     };
 
     this.config = (newConfig) => {

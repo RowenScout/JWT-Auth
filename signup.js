@@ -2,7 +2,7 @@ const User = require('./lib/user.js');
 const getHeader = require('./lib/getHeader.js');
 
 
-module.exports = (config, req, res, next) => {
+module.exports = (_this, req, res, next) => {
     req.user = req.user || {};
     let authHeader = getHeader(req, next);
     if (req.user.message) return req, res, next();
