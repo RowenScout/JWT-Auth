@@ -9,12 +9,18 @@ module.exports = (_this, req, res, next) => {
       req.user = req.user || {};
       let authHeader = getHeader(req, next);
       if (req.user.message) return req, res, next();
+      let currentDate = new Date().getTime();
+
 
 if (_this._attemptedLogin[req.ip] === 3) {
   //handle timed out user
-  console.log("You have 3 or more failed login attempts");
-next();
-} else {
+  if (currentDate - _this._attemptedLogin[req.ip].failedDate > 50000) {
+    return req, res, next();
+  } else {
+    delete _this._attemptedLogin[req.ip];
+  }
+}
+
 User.findOne({username: authHeader['username']}).then(response => {
   if (response) {
       bcrypt.compare(authHeader.password, response.password)
@@ -23,7 +29,7 @@ User.findOne({username: authHeader['username']}).then(response => {
        if (res) {
          _this._attemptedLogin[req.ip] = null;
          delete _this._attemptedLogin[req.ip];
-          console.log(_this._attemptedLogin);
+
          req.user.message = 'Signed in successfully!';
          req.user.authenticated = res;
            req.user.token = jwt.sign({id: response.uuid}, process.env.SECRET || 'change this');
@@ -32,13 +38,13 @@ User.findOne({username: authHeader['username']}).then(response => {
          req.user.message = 'Authentication failed!';
          req.user.authenticated = false;
 
-         if (_this._attemptedLogin[req.ip]){
-            _this._attemptedLogin[req.ip]++;
-
+         if (_this._attemptedLogin[req.ip].attempts){
+           if (_this._attemptedLogin[req.ip].attempts === 2) _this._attemptedLogin[req.ip].failedDate = currentDate;
+           _this._attemptedLogin[req.ip].attempts ++;
          } else {
-           _this._attemptedLogin[req.ip] = 1;
+           _this._attemptedLogin[req.ip].attempts = 1;
          }
-         console.log(_this._attemptedLogin);
+
          next();
        }
      });
@@ -46,18 +52,15 @@ User.findOne({username: authHeader['username']}).then(response => {
     req.user.message = 'Username does not exist!';
     req.user.authenticated = false;
 
-    if (_this._attemptedLogin[req.ip]){
-       _this._attemptedLogin[req.ip]++;
-
+    if (_this._attemptedLogin[req.ip].attempts){
+      if (_this._attemptedLogin[req.ip].attempts === 2) _this._attemptedLogin[req.ip].failedDate = currentDate;
+      _this._attemptedLogin[req.ip].attempts ++;
     } else {
-      _this._attemptedLogin[req.ip] = 1;
+      _this._attemptedLogin[req.ip].attempts = 1;
     }
-    console.log(_this._attemptedLogin);
     next();
   }
 
 });
-
-};//end >4 if
 
 };
