@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./testServer/index.js",
-    "db": "mkdir -p ./testServer/db && mongod --dbpath ./testServer/db"
+    "db": "mkdir -p ./testServer/db && mongod --dbpath ./testServer/db",
+    "test": "mocha ./__test__"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,9 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
+    "expect": "^21.2.1",
     "express": "^4.16.2",
-    "jest": "^21.2.1",
+    "mocha": "^4.0.1",
     "mongoose": "^4.13.3",
     "nodemon": "^1.12.1",
     "superagent": "^3.8.1",

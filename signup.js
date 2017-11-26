@@ -1,30 +1,23 @@
 const User = require('./lib/user.js');
-
-module.exports = (req, res, next) => {
-
-
-    let authHeader = req.headers.authorization;
-    if (!authHeader) return next(new Error('No auth Header'));
-
-    let base64 = authHeader.split('Basic ')[1];
-    let base64Buffer = new Buffer(base64, 'base64');
-    let stringHeader = base64Buffer.toString();
-    let authArray = stringHeader.split(':');
-    let authObject = {username: authArray[0], password: authArray[1]};
+const getHeader = require('./lib/getHeader.js');
 
 
-    const newUser = new User(authObject);
-
-    User.findOne({username: authObject['username']}).then(response => {
+module.exports = (_this, req, res, next) => {
+    req.user = req.user || {};
+    let authHeader = getHeader(req, next);
+    if (req.user.message) return req, res, next();
+    
+    const newUser = new User(authHeader);
+    User.findOne({username: authHeader['username']}).then(response => {
         if (response) {
-            req.user = {message: "Already Exists"};
+            req.user.message = "Account already exists.";
             next();
         } else {
-            newUser.hashify(authObject['password']).then(hash=> {
+            newUser.hashify(authHeader['password']).then(hash=> {
                 newUser.password = hash.password;
                 newUser.uuid = hash.uuid;
                 newUser.save().then(response => {
-                    req.user = {message: "Account Created"};
+                    req.user.message = "Account Created.";
                     next();
                 });
             });
