@@ -19,19 +19,24 @@ describe('', done => {
     done();
   });
 
-  it('Should get a mesage that the bearer is invalid', done => {
-    request.get(`localhost:${process.env.PORT || 3000}/logout`).then(response => {
-      expect(response.body.message).toEqual('Bearer invalid');
+  it('Should get a mesage that jwt must be provided', done => {
+    request.get(`localhost:${process.env.PORT || 3000}/logout`).auth(username, password).then(response => {
+      expect(response.body.message).toEqual('jwt must be provided');
       done();
     });
   });
 
-  it('Should send message "Logout successful." upon logout', done => {
-    request.get(`localhost:${process.env.PORT || 3000}/logout`).then(response => {
+  it('Should send message that Logout sucessful', done => {
+    request.get(`localhost:${process.env.PORT || 3000}/signup`).auth(username, password)
+    request.get(`localhost:${process.env.PORT || 3000}/signin`).auth(username, password)
+    request.get(`localhost:${process.env.PORT || 3000}/logout`).auth(res.jwt)
+    request.get('password')
+    .then(response => {
       expect(response.body.message).toEqual('Logout sucessful.')
-    })
-  }
+      done();
+    });
+  });
 
 
 
-})
+});
