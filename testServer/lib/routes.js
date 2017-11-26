@@ -16,14 +16,11 @@ router.get('/signup', jwtAuth().signup, (req, res, next) => {
 // signin
 router.get('/signin', jwtAuth().signin, (req,res,next) => {
   res.send(req.user.token);
-  console.log(req.user);
   next();
 });
 // logout
 router.get('/logout', jwtAuth().logout, (req, res, next) => {
   res.send(req.user);
-  // if (req.user)
-  // req.user.destroy;
   next();
 });
 // updateUser
