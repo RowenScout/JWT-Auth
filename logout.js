@@ -26,7 +26,10 @@ module.exports = (req, res, next) => {
       req.user.authenticated = false;
       res.uuid = new uuid();
       res.save();
+      res.send('Logout successful.')
       next();
+    } else {
+      res.send('Logout unsuccessful.')
     }
   })
 };
