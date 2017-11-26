@@ -13,22 +13,18 @@ module.exports = (_this, req, res, next) => {
 if(typeof _this._attemptedLogin[req.ip] === 'undefined') _this._attemptedLogin[req.ip] = {attempts: 0};
 
 if (_this._attemptedLogin[req.ip].attempts === 3) {
-  console.log('Attempt made');
   //handle timed out user
     currentDate = new Date().getTime();
-    console.log(currentDate , _this._attemptedLogin[req.ip].failedDate);
   if (currentDate - _this._attemptedLogin[req.ip].failedDate < 300000) {
     req.user.message = 'Account timed out';
-    console.log(req.user.message);
     return req, res, next();
   } else {
     req.user.message = 'Account unlocked. Please try to login again.';
-    console.log(currentDate , _this._attemptedLogin[req.ip].failedDate);
     delete _this._attemptedLogin[req.ip];
 
     return req, res, next();
   }
-}else{
+} else {
 
 User.findOne({username: authHeader['username']}).then(response => {
   if (response) {
@@ -51,12 +47,9 @@ User.findOne({username: authHeader['username']}).then(response => {
            if (_this._attemptedLogin[req.ip].attempts === 2) _this._attemptedLogin[req.ip].failedDate = new Date().getTime();
            _this._attemptedLogin[req.ip].attempts ++;
          } else {
-           console.log('David');
            _this._attemptedLogin[req.ip] = {};
            _this._attemptedLogin[req.ip].attempts = 1;
          }
-
-         console.log(_this._attemptedLogin);
          next();
        }
      });
