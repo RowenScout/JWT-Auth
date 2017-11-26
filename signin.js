@@ -68,5 +68,6 @@ User.findOne({username: authHeader['username']}).then(response => {
   }
 
 });
+
 };//end >3 if
 };
