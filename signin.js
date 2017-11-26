@@ -9,6 +9,22 @@ module.exports = (_this, req, res, next) => {
       req.user = req.user || {};
       let authHeader = getHeader(req, next);
       if (req.user.message) return req, res, next();
+      let currentDate = 0;
+if(typeof _this._attemptedLogin[req.ip] === 'undefined') _this._attemptedLogin[req.ip] = {attempts: 0};
+
+if (_this._attemptedLogin[req.ip].attempts === 3) {
+  //handle timed out user
+    currentDate = new Date().getTime();
+  if (currentDate - _this._attemptedLogin[req.ip].failedDate < 300000) {
+    req.user.message = 'Account timed out';
+    return req, res, next();
+  } else {
+    req.user.message = 'Account unlocked. Please try to login again.';
+    delete _this._attemptedLogin[req.ip];
+
+    return req, res, next();
+  }
+} else {
 
 User.findOne({username: authHeader['username']}).then(response => {
   if (response) {
@@ -16,6 +32,9 @@ User.findOne({username: authHeader['username']}).then(response => {
       .then (
      function (res, err){
        if (res) {
+         _this._attemptedLogin[req.ip] = null;
+         delete _this._attemptedLogin[req.ip];
+
          req.user.message = 'Signed in successfully!';
          req.user.authenticated = res;
            req.user.token = jwt.sign({id: response.uuid}, process.env.SECRET || 'change this');
@@ -23,14 +42,30 @@ User.findOne({username: authHeader['username']}).then(response => {
        } else {
          req.user.message = 'Authentication failed!';
          req.user.authenticated = false;
+
+         if (_this._attemptedLogin[req.ip].attempts){
+           if (_this._attemptedLogin[req.ip].attempts === 2) _this._attemptedLogin[req.ip].failedDate = new Date().getTime();
+           _this._attemptedLogin[req.ip].attempts ++;
+         } else {
+           _this._attemptedLogin[req.ip] = {};
+           _this._attemptedLogin[req.ip].attempts = 1;
+         }
          next();
        }
      });
   } else {
     req.user.message = 'Username does not exist!';
     req.user.authenticated = false;
+
+    if (_this._attemptedLogin[req.ip].attempts){
+      if (_this._attemptedLogin[req.ip].attempts === 2) _this._attemptedLogin[req.ip].failedDate = new Date().getTime();
+      _this._attemptedLogin[req.ip].attempts ++;
+    } else {
+      _this._attemptedLogin[req.ip].attempts = 1;
+    }
     next();
   }
 
 });
+};//end >3 if
 };
