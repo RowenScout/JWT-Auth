@@ -10,13 +10,14 @@ module.exports = (_this, req, res, next) => {
       let authHeader = getHeader(req, next);
       if (req.user.message) return req, res, next();
       let currentDate = 0;
+
 if(typeof _this._attemptedLogin[req.ip] === 'undefined') _this._attemptedLogin[req.ip] = {attempts: 0};
 
 if (_this._attemptedLogin[req.ip].attempts === 3) {
   //handle timed out user
     currentDate = new Date().getTime();
   if (currentDate - _this._attemptedLogin[req.ip].failedDate < 300000) {
-    req.user.message = 'Account timed out';
+    req.user.message = 'Account timed out.';
     return req, res, next();
   } else {
     req.user.message = 'Account unlocked. Please try to login again.';
