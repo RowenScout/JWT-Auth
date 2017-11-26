@@ -16,7 +16,12 @@ router.get('/signin', jwtAuth.signin, (req,res,next) => {
   next();
 });
 
-router.get('/logout', jwtAuth().logout, (req, res, next) => {
+router.get('/logout', jwtAuth.logout, (req, res, next) => {
+  res.send(req.user);
+  next();
+});
+
+router.get('/update', jwtAuth.update, (req, res, next) => {
   res.send(req.user);
   next();
 });
