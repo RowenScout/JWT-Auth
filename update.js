@@ -39,14 +39,12 @@ module.exports = (_this, req, res, next) => {
             if (res) {
               _this._attemptedLogin[req.ip] = null;
               delete _this._attemptedLogin[req.ip];
-
-              req.user.message = 'Signed in successfully!';
+              
+              req.user.message = 'Password Updated!';
 
               //SETTING NEW PASSWORD.
               bcrypt.hashAsync(authHeader.newPassword, 10).then(hash => {
                 User.findOneAndUpdate({username: response.username}, {password: hash},  {new: true}, function (err, res){
-
-                  req.user.message = 'Password updated!';
                   console.log(res);
                 });
                 return next();
