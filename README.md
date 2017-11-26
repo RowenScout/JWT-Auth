@@ -1,7 +1,7 @@
 # JWT-Auth
 Authentication/Authorization module for node. Written in javascript.
 
-## How to Use JWT-Auth
+### How to Use JWT-Auth
 
 Let's begin by including our module: 
 ```
@@ -12,7 +12,7 @@ JWT-Auth has four exportable functions: signup, signin, update, and logout. To i
 
 All responses by JWT-auth will be stored in the req.user object. 
 
-### Sign Up
+#### Sign Up
 
 To incude signup, attach as follows: 
 
