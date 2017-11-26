@@ -24,7 +24,7 @@ describe('Should test all available callbacks from signin.js', done => {
     it('Should send message "Account Created" upon creation of new user', function(done) {
       request.get(`localhost:${process.env.PORT || 3000}/signup`).auth(username, password).then(response => {
                 // successful response
-       expect(response.body.message).toEqual('Account Created');
+       expect(response.body.message).toEqual('Account Created.');
          done();
       });
     });
@@ -48,4 +48,49 @@ describe('Should test all available callbacks from signin.js', done => {
         done();
       });
     });
+});
+
+describe('Should prevent Brute force attacks.', done => {
+    before(done => {
+      app.start();
+        User.remove({username: username}).then(() => {
+            done();
+        });
+    });
+
+    after(done => {
+        app.stop();
+        done();
+    });
+
+    it('Should send message "Account Created" upon creation of new user', function(done) {
+      request.get(`localhost:${process.env.PORT || 3000}/signup`).auth(username, password).then(response => {
+                // successful response
+       expect(response.body.message).toEqual('Account Created.');
+         done();
+      });
+    });
+    it('Should prevent a user from logging in after 3 unsuccessful attempts', function(done) {
+      request.get(`localhost:${process.env.PORT || 3000}/signin`).auth(username, 'david').then(response => {
+       expect(response.body.message).toEqual('Authentication failed!');
+       done();
+       request.get(`localhost:${process.env.PORT || 3000}/signin`).auth(username, 'david').then(response => {
+        expect(response.body.message).toEqual('Authentication failed!');
+        done();
+        request.get(`localhost:${process.env.PORT || 3000}/signin`).auth(username, 'david').then(response => {
+         expect(response.body.message).toEqual('Authentication failed!');
+         done();
+         request.get(`localhost:${process.env.PORT || 3000}/signin`).auth(username, 'david').then(response => {
+          expect(response.body.message).toEqual('Account timed out');
+          done();
+         });
+
+        });
+
+       });
+
+      });
+
+    });
+    
 });
