@@ -63,7 +63,6 @@ describe('', done => {
       });
   it('Should send message "Signed in successfully!" upon signin', function(done) {
           request.get(`localhost:${process.env.PORT || 3000}/signin`).auth(username, password).then(response => {
-          console.log(response.body);
           jwtTest = response.body.token;
          expect(response.body.message).toEqual('Signed in successfully!');
            done();

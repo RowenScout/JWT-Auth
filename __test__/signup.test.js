@@ -9,9 +9,9 @@ const testPassword = 'testing456';
     describe('', done => {
         before(done => {
             app.start();
-            request.get('localhost:3000/signup').auth(testUsername, testPassword).then(done=>{
-              done();
-            })
+            User.remove({username: testUsername}).then(() => {
+                done();
+            });
         });
 
         after(done => {

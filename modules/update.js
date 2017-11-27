@@ -46,9 +46,9 @@ module.exports = (_this, req, res, next) => {
               //SETTING NEW PASSWORD.
               bcrypt.hashAsync(authHeader.newPassword, 10).then(hash => {
                 User.findOneAndUpdate({username: response.username}, {password: hash},  {new: true}, function (err, res){
-                  console.log(res);
+                  return next();
                 });
-                return next();
+            
               });
 
 
