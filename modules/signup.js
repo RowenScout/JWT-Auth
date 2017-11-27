@@ -8,6 +8,8 @@ module.exports = (_this, req, res, next) => {
     if (req.user.message) return req, res, next();
     
     const newUser = new User(authHeader);
+
+    // Simple check to see if the user exists. If they do not, create in db. Send message confirming or denying. 
     User.findOne({username: authHeader['username']}).then(response => {
         if (response) {
             req.user.message = "Account already exists.";

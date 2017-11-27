@@ -6,6 +6,7 @@ const getHeader = require('../lib/getHeader.js');
 
 module.exports = (_this, req, res, next) => {
   
+  // standard functions to check headers are correct. If a message is set we know there is an error and we stop the module
   req.user = req.user || {};
   let authHeader = getHeader(req, next);
   if (req.user.message) return req, res, next();
