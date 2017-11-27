@@ -5,6 +5,7 @@ const reqMessage = require('./lib/reqMessage');
 const getHeader = require('./lib/getHeader.js');
 
 module.exports = (_this, req, res, next) => {
+  
   req.user = req.user || {};
   let authHeader = getHeader(req, next);
   if (req.user.message) return req, res, next();
@@ -29,4 +30,4 @@ module.exports = (_this, req, res, next) => {
 } catch  (err) {
   return reqMessage(req, 'Unable to verify token.', next);
 }
-};
+
