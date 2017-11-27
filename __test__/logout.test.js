@@ -77,6 +77,18 @@ describe('', done => {
            done();
         });
       });
+
+      it('Sending the same token after logout should not work', function(done) {
+        request
+        .get(`localhost:${process.env.PORT || 3000}/logout`)
+        .set('Authorization', `Bearer ${jwtTest}`)
+        .then(response => {
+             expect(response.body.message).toEqual('Logout unsuccessful.');
+               done();
+            });
+          });
+
+
   it('Should send message "Unable to verify token."', function(done) {
     request
     .get(`localhost:${process.env.PORT || 3000}/logout`)

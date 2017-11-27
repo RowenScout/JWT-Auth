@@ -13,10 +13,8 @@ module.exports = (_this, req, res, next) => {
 
   try {
     let verified = jwt.verify(authHeader.token, process.env.SECRET || 'change this');
-
     User.findOne({uuid: verified['id']}).then(response => {
-
-      if(res) {
+      if(response) {
         User.findOneAndUpdate({uuid: response.uuid}, {uuid: uuid()}, {new: true}, function (err, res){
 
           req.user.message = 'Logout successful.';
