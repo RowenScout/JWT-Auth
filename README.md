@@ -72,10 +72,10 @@ Additionally, signin will help prevent against brute force attacks. A user will 
 Sign In will send the following information within the req.user.message:
 
 
-"Signed in successfully!"-> You signed in successfully! "Authentication failed!"-> You have sent in an incorrect username or password. "Account timed out."-> You have entered in an incorrect username or password 3 or more times. "Account unlocked. Please try to login again." -> Your account is now unlocked. "Username does not exist!" -> You have sent a username that does not exist in the DB.
-"Account timed out."-> You have entered in an incorrect username or password 3 or more times.
-"Account unlocked. Please try to login again." -> Your account is now unlocked.
-"Username does not exist!" -> You have sent a username that does not exist in the DB.
+* "Signed in successfully!"-> You signed in successfully! "Authentication failed!"-> You have sent in an incorrect username or password. "Account timed out."-> You have entered in an incorrect username or password 3 or more times. "Account unlocked. Please try to login again." -> Your account is now unlocked. "Username does not exist!" -> You have sent a username that does not exist in the DB.
+* "Account timed out."-> You have entered in an incorrect username or password 3 or more times.
+* "Account unlocked. Please try to login again." -> Your account is now unlocked.
+* "Username does not exist!" -> You have sent a username that does not exist in the DB.
 
 #### Update
 

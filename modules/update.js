@@ -9,6 +9,7 @@ module.exports = (_this, req, res, next) => {
   req.user = req.user || {};
   const authHeader = getHeader(req, next);
   if (req.user.message) return req, res, next();
+  
   let currentDate = 0;
   if(typeof _this._attemptedLogin[req.ip] === 'undefined') _this._attemptedLogin[req.ip] = {attempts: 0};
 
