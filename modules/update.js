@@ -1,9 +1,9 @@
 'use strict';
 
 const jwt = require('jsonwebtoken');
-const User = require('./lib/user.js');
+const User = require('../lib/user.js');
 const bcrypt = require('bluebird').promisifyAll(require('bcrypt'));
-const getHeader = require('./lib/getHeader.js');
+const getHeader = require('../lib/getHeader.js');
 
 module.exports = (_this, req, res, next) => {
   req.user = req.user || {};

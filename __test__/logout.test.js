@@ -3,14 +3,8 @@
 const expect = require('expect');
 const User = require('../lib/user.js');
 const app = require('../testServer/lib/server.js');
-
-//superagent bearer token
 const request = require('superagent');
-// request
-// .get('/some-url')
-// .set('Authorization', `Bearer ${token}`)
 
-//testing variables
 const username = 'username';
 const password = 'password';
 let jwtTest = '';

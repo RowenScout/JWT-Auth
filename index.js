@@ -1,9 +1,9 @@
 'use strict';
 
-const _signup = require('./signup');
-const _signin = require('./signin');
-const _logout = require('./logout');
-const _update = require('./update');
+const _signup = require('./modules/signup');
+const _signin = require('./modules/signin');
+const _logout = require('./modules/logout');
+const _update = require('./modules/update');
 // need a function here that parses req, res, next. ideally as a promise function so we can await the results
 
 const jwt_auth = function(req, res, next) {

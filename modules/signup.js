@@ -1,5 +1,5 @@
-const User = require('./lib/user.js');
-const getHeader = require('./lib/getHeader.js');
+const User = require('../lib/user.js');
+const getHeader = require('../lib/getHeader.js');
 
 
 module.exports = (_this, req, res, next) => {

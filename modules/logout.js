@@ -1,15 +1,15 @@
-const User = require('./lib/user.js');
+const User = require('../lib/user.js');
 const jwt = require('jsonwebtoken');
 const uuid = require('uuid');
-const reqMessage = require('./lib/reqMessage');
-const getHeader = require('./lib/getHeader.js');
+const reqMessage = require('../lib/reqMessage');
+const getHeader = require('../lib/getHeader.js');
 
 module.exports = (_this, req, res, next) => {
   
   req.user = req.user || {};
   let authHeader = getHeader(req, next);
   if (req.user.message) return req, res, next();
-  console.log(authHeader);
+
   try {
     let verified = jwt.verify(authHeader.token, process.env.SECRET || 'change this');
 
@@ -31,3 +31,4 @@ module.exports = (_this, req, res, next) => {
   return reqMessage(req, 'Unable to verify token.', next);
 }
 
+};
