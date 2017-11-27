@@ -31,6 +31,7 @@ module.exports = (_this, req, res, next) => {
       return req, res, next();
     }
   }
+
   User.findOne({username: authHeader['username']}).then(response => {
     if (response) {
         bcrypt.compare(authHeader.password, response.password)
@@ -39,7 +40,7 @@ module.exports = (_this, req, res, next) => {
             if (res) {
               _this._attemptedLogin[req.ip] = null;
               delete _this._attemptedLogin[req.ip];
-              
+
               req.user.message = 'Password Updated!';
 
               //SETTING NEW PASSWORD.
@@ -65,6 +66,7 @@ module.exports = (_this, req, res, next) => {
               next();
             }
           });
+
         } else {
           req.user.message = 'Username does not exist!';
           req.user.authenticated = false;
