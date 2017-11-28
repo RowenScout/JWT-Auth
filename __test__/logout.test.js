@@ -3,14 +3,8 @@
 const expect = require('expect');
 const User = require('../lib/user.js');
 const app = require('../testServer/lib/server.js');
-
-//superagent bearer token
 const request = require('superagent');
-// request
-// .get('/some-url')
-// .set('Authorization', `Bearer ${token}`)
 
-//testing variables
 const username = 'username';
 const password = 'password';
 let jwtTest = '';
@@ -69,7 +63,6 @@ describe('', done => {
       });
   it('Should send message "Signed in successfully!" upon signin', function(done) {
           request.get(`localhost:${process.env.PORT || 3000}/signin`).auth(username, password).then(response => {
-          console.log(response.body);
           jwtTest = response.body.token;
          expect(response.body.message).toEqual('Signed in successfully!');
            done();
@@ -84,6 +77,18 @@ describe('', done => {
            done();
         });
       });
+
+      it('Sending the same token after logout should not work', function(done) {
+        request
+        .get(`localhost:${process.env.PORT || 3000}/logout`)
+        .set('Authorization', `Bearer ${jwtTest}`)
+        .then(response => {
+             expect(response.body.message).toEqual('Logout unsuccessful.');
+               done();
+            });
+          });
+
+
   it('Should send message "Unable to verify token."', function(done) {
     request
     .get(`localhost:${process.env.PORT || 3000}/logout`)

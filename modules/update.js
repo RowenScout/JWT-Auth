@@ -1,14 +1,18 @@
 'use strict';
 
 const jwt = require('jsonwebtoken');
-const User = require('./lib/user.js');
+const User = require('../lib/user.js');
 const bcrypt = require('bluebird').promisifyAll(require('bcrypt'));
-const getHeader = require('./lib/getHeader.js');
+const getHeader = require('../lib/getHeader.js');
 
 module.exports = (_this, req, res, next) => {
+
+  // standard functions to check headers are correct. If a message is set we know there is an error and we stop the module
   req.user = req.user || {};
   const authHeader = getHeader(req, next);
   if (req.user.message) return req, res, next();
+
+  // comments explaining the brute force prevention can be found in signin.js
   let currentDate = 0;
   if(typeof _this._attemptedLogin[req.ip] === 'undefined') _this._attemptedLogin[req.ip] = {attempts: 0};
 
@@ -46,9 +50,9 @@ module.exports = (_this, req, res, next) => {
               //SETTING NEW PASSWORD.
               bcrypt.hashAsync(authHeader.newPassword, 10).then(hash => {
                 User.findOneAndUpdate({username: response.username}, {password: hash},  {new: true}, function (err, res){
-                  console.log(res);
+                  return next();
                 });
-                return next();
+            
               });
 
 

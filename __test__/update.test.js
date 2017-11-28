@@ -10,7 +10,7 @@ let password = 'password';
 let newPassword = 'newPassword';
 let badUser = 'bubsy-3d'
 
-describe('Update before/after block', (done) => {
+describe('Testing a user updating their password', (done) => {
   before((done) => {
     app.start();
     request.get('localhost:3000/signup').auth(username, password)
