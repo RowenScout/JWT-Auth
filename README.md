@@ -107,7 +107,7 @@ To include logout, attach:
 router.get('/logout', jwtAuth.logout, (req, res, next) => {
 });
 
-Logout takes username, password and jsonwebtoken (jwt).
+Logout takes a bearer token.
 ```
 
 The Logout module accepts the request to log the user out after the user has successfully signed up and signed into the application.
