@@ -18,11 +18,11 @@ module.exports = (_this, req, res, next) => {
     _this._attemptedLogin[req.ip] = _this._attemptedLogin[req.ip] || {attempts: 0};
 
     // Check if user has failed 3 times. If so, they should be blocked and the module ended.
-    if (_this._attemptedLogin[req.ip].attempts === 3) return blockUser(_this, req, res , next);
+    if (_this._attemptedLogin[req.ip].attempts === 3) return blockUser(_this, 'Account locked.' ,req, res , next);
 
 
     User.findOne({username: authHeader['username']}).then(response => {
-        if (!response) if (!response) return incrementAttempts(_this, req, res, next);
+        if (!response) if (!response) return incrementAttempts(_this, 'Invalid Credentials.' ,req, res, next);
 
         bcrypt.compare(authHeader.password, response.password).then(res => {
             if (res) {
@@ -40,7 +40,7 @@ module.exports = (_this, req, res, next) => {
                 });
             }
             else {
-                incrementAttempts(_this, req, res, next);
+                incrementAttempts(_this,'Authentication failed!' ,req, res, next);
             }
             
         });

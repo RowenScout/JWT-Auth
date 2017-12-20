@@ -19,10 +19,10 @@ module.exports = (_this, req, res, next) => {
     _this._attemptedLogin[req.ip] = _this._attemptedLogin[req.ip] || {attempts: 0};
 
     // Check if user has failed 3 times. If so, they should be blocked and the module ended.
-    if (_this._attemptedLogin[req.ip].attempts === 3) return blockUser(_this, req, res , next);
+    if (_this._attemptedLogin[req.ip].attempts === 3) return blockUser(_this, 'Account is Locked.' ,req, res , next);
 
     User.findOne({username: authHeader['username']}).then(response => {
-        if (!response) return incrementAttempts(_this, req, res, next);
+        if (!response) return incrementAttempts(_this, 'Username does not exist!' ,req, res, next);
         bcrypt.compare(authHeader.password, response.password)
             .then (
                 function (res){
@@ -35,7 +35,7 @@ module.exports = (_this, req, res, next) => {
                         req.user.token = jwt.sign({id: response.uuid}, process.env.SECRET || 'change this');
                         next();
                     } else {
-                        incrementAttempts(_this, req, res, next);
+                        incrementAttempts(_this, 'Authentication failed!' ,req, res, next);
                     }
                 });
     });

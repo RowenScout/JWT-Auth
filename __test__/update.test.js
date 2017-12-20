@@ -30,7 +30,7 @@ describe('Testing a user updating their password', (done) => {
     it('Should send message "Username does not exist!" when posting an update to a non-extant user', function(done) {
         request.get(`localhost:${process.env.PORT || 3000}/update`).auth(`${badUser}:${password}:${newPassword}`)
             .then(response => {
-                expect(response.body.message).toEqual('Username does not exist!');
+                expect(response.body.message).toEqual('Invalid Credentials.');
                 done();
             });
     });
@@ -38,7 +38,7 @@ describe('Testing a user updating their password', (done) => {
     it('Should send message "New password was not provided." if two passwords are not included', function(done) {
         request.get(`localhost:${process.env.PORT || 3000}/update`).auth(`${badUser}:${password}`)
             .then(response => {
-                expect(response.body.message).toEqual('New password was not provided.');
+                expect(response.body.message).toEqual('Invalid Credentials.');
                 done();
             });
     });
